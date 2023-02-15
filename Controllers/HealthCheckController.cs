@@ -35,7 +35,7 @@ public class HealthCheckController : ControllerBase
         }
 
         _logger.LogError(DateTime.Now.ToString() + " FAILED: job is down");
-        return StatusCode(StatusCodes.Status500InternalServerError, "job is down");
+        return StatusCode(StatusCodes.Status400BadRequest, "job is down");
     }
 
 }
