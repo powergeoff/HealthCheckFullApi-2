@@ -28,14 +28,23 @@ public class HealthCheckController : ControllerBase
     [HttpGet(Name = "IsHealthy")]
     public ActionResult IsHealthy()
     {
+        var remoteIpAddress = this.HttpContext.Connection.RemoteIpAddress;
+        _logger.LogInformation(DateTime.Now.ToString() + " IP: " + remoteIpAddress?.ToString()); 
+        //no key - 404
+        /* if (!context.Request.Headers.ContainsKey("MyKey"))
+        {
+            _logger.LogError(DateTime.Now.ToString() + " no custom header shown");
+            return StatusCode(StatusCodes.Status404NotFound);
+        } */
+
         _logger.LogInformation(DateTime.Now.ToString() + " Health Check Invoked isHealthy = " + isHealthy);
         if (isHealthy)
         {
-            return Ok("Things are good");
+            return Ok();
         }
 
         _logger.LogError(DateTime.Now.ToString() + " FAILED: job is down");
-        return StatusCode(StatusCodes.Status400BadRequest, "job is down");
+        return StatusCode(StatusCodes.Status404NotFound);
     }
 
 }
